@@ -3,8 +3,10 @@ package DAO.H2;
 import DAO.IProblemDAO;
 import Model.Problem;
 import Model.Project;
+import Model.Status;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class H2ProblemDAO implements IProblemDAO {
 
@@ -21,7 +23,7 @@ public class H2ProblemDAO implements IProblemDAO {
      * @param project of the tasks we want to receive
      */
     @Override
-    public void getProblemsOfProject(Project project) {
+    public void getProblemsOfProject(Project project, ArrayList<Status> statuses) {
         project.getProblemList().clear();
         String selection = "select * from "+ TableTask + " WHERE IDPROJECT =" + project.getID() +" order by ID";
         try (Connection dbConnection = DriverManager.getConnection(DB_URL)) {
@@ -29,16 +31,25 @@ public class H2ProblemDAO implements IProblemDAO {
             try (Statement statement = dbConnection.createStatement()) {
                 ResultSet rs = statement.executeQuery(selection);
                 while (rs.next()) {
-                    Problem element;
-                    element=new Problem(rs.getLong("ID"),project.getID(),rs.getString("TITLE"));
+                    Problem element=new Problem(rs.getLong("ID"),project.getID(),rs.getString("TITLE"));
                     element.setStartDay(rs.getDate("STARTDATE"));
                     element.setEndDay(rs.getDate("ENDDATE"));
+                    long IDStatus=rs.getLong("IDStatus");
+                    if ( IDStatus!=0 ){
+                        for (Status status : statuses) {
+                            if (status.getID() == IDStatus) {
+                                element.setStatus(status);
+                                break;
+                            }
+                        }
+                    }
                     project.getProblemList().add(element);
                 }
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
     }
 
     /**
@@ -61,12 +72,22 @@ public class H2ProblemDAO implements IProblemDAO {
 
         if (problem.getEndDay()!=null)
         {
-            updateTableSQL+="'"+new Timestamp(problem.getEndDay().getTime())+"' WHERE ID = "+problem.getID();
+            updateTableSQL+="'"+new Timestamp(problem.getEndDay().getTime())+"', IDStatus = ";
         }
         else
         {
-            updateTableSQL+="NULL WHERE ID = "+problem.getID();
+            updateTableSQL+="NULL, IDStatus = ";
         }
+        if (problem.getStatus()!=null)
+        {
+            updateTableSQL+="'"+problem.getStatus().getID()+"'";
+        }
+        else
+        {
+            updateTableSQL+="NULL";
+        }
+
+        updateTableSQL+=" WHERE ID = "+problem.getID();
 
         try (Connection dbConnection = DriverManager.getConnection(DB_URL)) {
             assert dbConnection != null;

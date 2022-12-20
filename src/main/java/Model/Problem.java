@@ -11,6 +11,22 @@ public class Problem extends ProjectEntity {
     private Date StartDay;
     private Date EndDay; //optional
 
+    @Override
+    public String getStringStatus() {
+        if (this.status==null) return "";
+        return this.status.getName();
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    private Status status;//optional
+
     public Problem(long ID,long projectID,String title)
     {
         this.ID=ID;
@@ -20,6 +36,7 @@ public class Problem extends ProjectEntity {
         numberOfDuration=null;
         StartDay=null;
         EndDay=null;
+        status=null;
     }
 
     public long getID() {
@@ -65,6 +82,7 @@ public class Problem extends ProjectEntity {
         clone.setNumberOfDuration(this.numberOfDuration);
         clone.setStartDay(this.StartDay);
         clone.setEndDay(this.EndDay);
+        clone.setStatus(this.status);
 
         return clone;
     }

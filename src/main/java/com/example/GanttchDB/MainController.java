@@ -1,25 +1,30 @@
 package com.example.GanttchDB;
 
 import DAO.DAOFactory;
-import Model.Problem;
-import Model.Project;
-import Model.ProjectEntity;
-import Model.ProjectList;
+import Model.*;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.image.WritableImage;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Objects;
 
 public class MainController {
     public TreeTableView<ProjectEntity> Table;
@@ -31,15 +36,24 @@ public class MainController {
     public TextField nameProjectTF;
     public TextField nameProblemTF;
     public SplitPane splitP;
+    public SplitPane splitPaneForChart;
+    public TreeTableColumn<ProjectEntity,String> statusCol;
     private TreeItem<ProjectEntity> root;
     private ProjectList projectList;
     private GanttChart gc;
+    ArrayList<Status> statuses;
+    long user;
+    DAOFactory dao;
 
     public void init(long userID,DAOFactory DAO) {
+        user=userID;
+        dao=DAO;
         Table.columnResizePolicyProperty().setValue(TreeTableView.CONSTRAINED_RESIZE_POLICY);
+        statuses=new ArrayList<>();
+        DAO.getStatusDAO().getStatusOfUser(statuses,userID);
         colsSetValueFactory();
-        gc=new GanttChart(splitP);
-        projectList=new ProjectList(userID,DAO);
+        gc=new GanttChart(splitPaneForChart);
+        projectList=new ProjectList(userID,DAO,statuses);
         projectList.AddObs(gc);
         root=new TreeItem<>(null);
         Table.setRoot(root);
@@ -49,10 +63,32 @@ public class MainController {
         initProjectAndProblem();
     }
 
+    @FXML
+    private void GoStatus() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("status-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage(StageStyle.DECORATED);
+        stage.setTitle("Диаграмма Ганта");
+        stage.setScene(scene);
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                projectList=new ProjectList(user,dao,statuses);
+                projectList.AddObs(gc);
+                colsSetValueFactory();
+                initProjectAndProblem();
+            }
+        });
+        StatusView controller=fxmlLoader.getController();
+        controller.init(user,dao, statuses);
+        stage.show();
+        stage.resizableProperty().set(false);
+    }
+
     /**
      * Method for displaying data loaded from DB
      */
-    private void initProjectAndProblem()
+    public void initProjectAndProblem()
     {
         root.getChildren().clear();
         for (int i = 0; i < projectList.getProjects().size(); i++) {
@@ -74,13 +110,14 @@ public class MainController {
     /**
      * Method for setCellFactory and setCellValueFactory for table column
      */
-    private void colsSetValueFactory()
+    public void colsSetValueFactory()
     {
         nameCol.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getValue().getTitle()));
         durationCol.setCellValueFactory(cellData->new SimpleObjectProperty<Long>(cellData.getValue().getValue().getNumberOfDuration()));
         categoryDurationCol.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getValue().getCategoryOfDuration()));
         startCol.setCellValueFactory(cellData-> new SimpleObjectProperty<>(cellData.getValue().getValue().getStartDay()));
         endCol.setCellValueFactory(cellData->new SimpleObjectProperty<>(cellData.getValue().getValue().getEndDay()));
+        statusCol.setCellValueFactory(cellData->new SimpleObjectProperty<>(cellData.getValue().getValue().getStringStatus()));
 
         nameCol.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn());
         nameCol.setOnEditCommit(new EventHandler<TreeTableColumn.CellEditEvent<ProjectEntity, String>>() {
@@ -126,6 +163,16 @@ public class MainController {
             @Override
             public void handle(TreeTableColumn.CellEditEvent<ProjectEntity, Date> event) {
                 projectList.updateProblemEndDate( (Problem) event.getRowValue().getValue(), event.getNewValue());
+            }
+        });
+
+        Callback<TreeTableColumn<ProjectEntity, String>, TreeTableCell<ProjectEntity, String>> cellFactoryCBS
+                = (TreeTableColumn<ProjectEntity, String> param) -> new TreeTableCB(this.statuses);
+        statusCol.setCellFactory(cellFactoryCBS);
+        statusCol.setOnEditCommit(new EventHandler<TreeTableColumn.CellEditEvent<ProjectEntity, String>>() {
+            @Override
+            public void handle(TreeTableColumn.CellEditEvent<ProjectEntity, String> event) {
+                projectList.updateProblemStatus( (Problem) event.getRowValue().getValue(), event.getNewValue());
             }
         });
     }

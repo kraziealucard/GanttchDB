@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane prefHeight="600.0" prefWidth="1100.0" stylesheets="@Gantt.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.GanttchDB.MainController">
+<GridPane prefHeight="600.0" prefWidth="1100.0" stylesheets="@Gantt.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.GanttchDB.MainController">
 
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -29,7 +29,7 @@
             </FlowPane>
          </left>
          <center>
-            <FlowPane alignment="TOP_CENTER" columnHalignment="RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="26.0" prefWidth="332.0" BorderPane.alignment="CENTER">
+            <FlowPane alignment="TOP_CENTER" columnHalignment="RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="26.0" prefWidth="425.0" BorderPane.alignment="CENTER">
                 <children>
                     <Label prefHeight="18.0" prefWidth="111.0" text="Добавить задачу:" />
                     <TextField fx:id="nameProblemTF" promptText="Название задачи" />
@@ -38,8 +38,13 @@
             </FlowPane>
          </center>
          <right>
-            <FlowPane alignment="TOP_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="26.0" prefWidth="204.0" BorderPane.alignment="CENTER">
+            <FlowPane alignment="TOP_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="53.0" prefWidth="298.0" BorderPane.alignment="CENTER">
                <children>
+                  <Button mnemonicParsing="false" onAction="#GoStatus" prefHeight="26.0" prefWidth="70.0" text="Статусы">
+                     <FlowPane.margin>
+                        <Insets right="10.0" />
+                     </FlowPane.margin>
+                  </Button>
                   <Button mnemonicParsing="false" onAction="#saveToPngClick" prefHeight="26.0" prefWidth="125.0" text="Сохранить в png">
                      <FlowPane.margin>
                         <Insets right="10.0" />
@@ -49,7 +54,7 @@
             </FlowPane>
          </right>
       </BorderPane>
-      <SplitPane fx:id="splitP" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+      <SplitPane fx:id="splitP" dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
          <items>
             <TreeTableView fx:id="Table" editable="true" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" showRoot="false">
               <columns>
@@ -58,11 +63,16 @@
                   <TreeTableColumn fx:id="categoryDurationCol" prefWidth="-1.0" sortable="false" text="СИ" />
                   <TreeTableColumn fx:id="startCol" prefWidth="-1.0" sortable="false" text="Начало" />
                   <TreeTableColumn fx:id="endCol" prefWidth="-1.0" sortable="false" text="Конец" />
+                  <TreeTableColumn fx:id="statusCol" prefWidth="75.0" text="Статус" />
               </columns>
                <columnResizePolicy>
                   <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TreeTableView>
+            <SplitPane fx:id="splitPaneForChart" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+               <items>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+               </items></SplitPane>
          </items></SplitPane>
    </children>
 

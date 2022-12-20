@@ -12,9 +12,12 @@ import java.util.Date;
     ArrayList<Project> projects;
     ArrayList<IObserver> observers;
     DAOFactory DAO;
+    ArrayList<Status> statuses;
+
     long UserID;
-    public ProjectList(long userID,DAOFactory dao)
+    public ProjectList(long userID,DAOFactory dao,ArrayList<Status> statuses)
     {
+        this.statuses=statuses;
         this.DAO=dao;
         this.UserID=userID;
         projects=new ArrayList<>();
@@ -26,7 +29,7 @@ import java.util.Date;
     {
         DAO.getProjectDAO().getProjectOfUser(projects,UserID);
         for (int i = 0; i < projects.size(); i++) {
-            DAO.getProblemDAO().getProblemsOfProject(projects.get(i));
+            DAO.getProblemDAO().getProblemsOfProject(projects.get(i),statuses);
             for (int j = 0; j < projects.get(i).getProblemList().size(); j++) {
                 calculateDuration(projects.get(i).getProblemList().get(j));
             }
@@ -115,6 +118,7 @@ import java.util.Date;
                     projects.get(i).getProblemList().get(j).setTitle(temp.getTitle());
                     projects.get(i).getProblemList().get(j).setEndDay(temp.getEndDay());
                     projects.get(i).getProblemList().get(j).setStartDay(temp.getStartDay());
+                    projects.get(i).getProblemList().get(j).setStatus(temp.getStatus());
                     projects.get(i).getProblemList().get(j).setCategoryOfDuration(temp.getCategoryOfDuration());
                     projects.get(i).getProblemList().get(j).setNumberOfDuration(temp.getNumberOfDuration());
                     notifyObs();
@@ -156,6 +160,19 @@ import java.util.Date;
         calculateDuration(temp);
         updateProblem(temp);
     }
+
+    public void updateProblemStatus(Problem problem, String status) {
+        Problem temp = problem.clone();
+        Status stat = null;
+        if (!status.isBlank()) {
+            for (int i = 0; i < statuses.size(); i++) {
+                if (status.equals(statuses.get(i).getName())) stat = statuses.get(i);
+            }
+        }
+        temp.setStatus(stat);
+        updateProblem(temp);
+    }
+
     public void removeProblemOfProject(Project project, Problem problem){
         if (DAO.getProblemDAO().deleteProblem(problem.getID()))
         {
@@ -173,6 +190,7 @@ import java.util.Date;
             notifyObs();
         }
     }
+
     @Override
     public void AddObs(IObserver observer) {
         observers.add(observer);

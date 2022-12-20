@@ -16,6 +16,10 @@ public abstract class ProjectEntity {
     {
         return null;
     }
+    public String getStringStatus()
+    {
+        return null;
+    }
     public Date getStartDay(){return null;}
     public Date getEndDay(){return null;}
 }

@@ -41,7 +41,7 @@ public class GanttChart implements IObserver {
 
         this.Chart.setMinSize(0,0);
         this.Chart.setLegendVisible(false);
-        SP.getItems().add(Chart);
+        SP.getItems().add(0,Chart);
     }
 
     /**
@@ -94,9 +94,15 @@ public class GanttChart implements IObserver {
                         break;
                     }
                 }
-
+                XYChart.Data<Number,String> bar=new XYChart.Data<>(endDate,name);
                 SeriesStep.getData().add(new XYChart.Data<>(startDate,name));
-                SeriesNotStep.getData().add(new XYChart.Data<>(endDate,name));
+                SeriesNotStep.getData().add(bar);
+                if (Data.get(i).getProblemList().get(j).getStatus()!=null){
+                    java.awt.Color c=Data.get(i).getProblemList().get(j).getStatus().getColor();
+                    if (c!=null) {
+                        bar.getNode().setStyle("-fx-background-color:rgba("+c.getRed()+","+c.getGreen()+","+c.getBlue()+","+c.getAlpha()+");");
+                    }
+                }
 
             }
             if (startP != null)

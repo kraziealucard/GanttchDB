@@ -10,7 +10,7 @@ public abstract class DAOFactory {
     public abstract IUserDAO getUserDAO();
     public abstract IProblemDAO getProblemDAO();
     public abstract IProjectDAO getProjectDAO();
-
+    public abstract IStatusDAO getStatusDAO();
     public static DAOFactory getDAOFactory(int whichFactory) {
         switch (whichFactory) {
             case H2: return new H2DAOFactory();

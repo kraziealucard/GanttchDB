@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -26,7 +27,7 @@ class ProjectListTest {
     void addProject() {
         JFXPanel fxPanel = new JFXPanel();
         DAOFactory DAO= DAOFactory.getDAOFactory(DAOFactory.H2);
-        ProjectList projectList=new ProjectList(1,DAO);
+        ProjectList projectList=new ProjectList(1,DAO,new ArrayList<Status>());
         deleteProjects(projectList);
         int diff=0;
         projectList.addProject("testAddProject "+(diff));
@@ -39,7 +40,7 @@ class ProjectListTest {
     void addProblemToProject() {
         JFXPanel fxPanel = new JFXPanel();
         DAOFactory DAO= DAOFactory.getDAOFactory(DAOFactory.H2);
-        ProjectList projectList=new ProjectList(1,DAO);
+        ProjectList projectList=new ProjectList(1,DAO,new ArrayList<Status>());
         deleteProjects(projectList);
 
         projectList.addProject("testAddProject "+projectList.getProjects().size());
@@ -58,7 +59,7 @@ class ProjectListTest {
     void updateProblemNumOfDuration() {
         JFXPanel fxPanel = new JFXPanel();
         DAOFactory DAO= DAOFactory.getDAOFactory(DAOFactory.H2);
-        ProjectList projectList=new ProjectList(1,DAO);
+        ProjectList projectList=new ProjectList(1,DAO,new ArrayList<Status>());
         deleteProjects(projectList);
 
         projectList.addProject("testAddProject "+projectList.getProjects().size());
@@ -80,7 +81,7 @@ class ProjectListTest {
     void updateTitle() {
         JFXPanel fxPanel = new JFXPanel();
         DAOFactory DAO= DAOFactory.getDAOFactory(DAOFactory.H2);
-        ProjectList projectList=new ProjectList(1,DAO);
+        ProjectList projectList=new ProjectList(1,DAO,new ArrayList<Status>());
         deleteProjects(projectList);
 
         projectList.addProject("testAddProject "+projectList.getProjects().size());
@@ -108,7 +109,7 @@ class ProjectListTest {
     void updateProblemCategoryOfDuration() {
         JFXPanel fxPanel = new JFXPanel();
         DAOFactory DAO= DAOFactory.getDAOFactory(DAOFactory.H2);
-        ProjectList projectList=new ProjectList(1,DAO);
+        ProjectList projectList=new ProjectList(1,DAO,new ArrayList<Status>());
         deleteProjects(projectList);
 
         projectList.addProject("testAddProject "+projectList.getProjects().size());
@@ -128,7 +129,7 @@ class ProjectListTest {
     void updateProblemStartDate() {
         JFXPanel fxPanel = new JFXPanel();
         DAOFactory DAO= DAOFactory.getDAOFactory(DAOFactory.H2);
-        ProjectList projectList=new ProjectList(1,DAO);
+        ProjectList projectList=new ProjectList(1,DAO,new ArrayList<Status>());
         deleteProjects(projectList);
 
         projectList.addProject("testAddProject "+projectList.getProjects().size());
@@ -156,7 +157,7 @@ class ProjectListTest {
     void updateProblemEndDate() {
         JFXPanel fxPanel = new JFXPanel();
         DAOFactory DAO= DAOFactory.getDAOFactory(DAOFactory.H2);
-        ProjectList projectList=new ProjectList(1,DAO);
+        ProjectList projectList=new ProjectList(1,DAO,new ArrayList<Status>());
         deleteProjects(projectList);
 
         projectList.addProject("testAddProject "+projectList.getProjects().size());
@@ -184,7 +185,7 @@ class ProjectListTest {
     void removeProblemOfProject() {
         JFXPanel fxPanel = new JFXPanel();
         DAOFactory DAO= DAOFactory.getDAOFactory(DAOFactory.H2);
-        ProjectList projectList=new ProjectList(1,DAO);
+        ProjectList projectList=new ProjectList(1,DAO,new ArrayList<Status>());
         deleteProjects(projectList);
 
         projectList.addProject("testAddProject "+projectList.getProjects().size());
@@ -205,7 +206,7 @@ class ProjectListTest {
     void removeProject() {
         JFXPanel fxPanel = new JFXPanel();
         DAOFactory DAO= DAOFactory.getDAOFactory(DAOFactory.H2);
-        ProjectList projectList=new ProjectList(1,DAO);
+        ProjectList projectList=new ProjectList(1,DAO,new ArrayList<Status>());
         deleteProjects(projectList);
 
         projectList.addProject("testAddProject "+projectList.getProjects().size());

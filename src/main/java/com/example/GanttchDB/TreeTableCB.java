@@ -2,11 +2,14 @@ package com.example.GanttchDB;
 
 import Model.Problem;
 import Model.ProjectEntity;
+import Model.Status;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TreeTableCell;
+
+import java.util.ArrayList;
 
 /**
  * Class for callback editable Table Cell of category of duration
@@ -14,6 +17,12 @@ import javafx.scene.control.TreeTableCell;
 class TreeTableCB extends TreeTableCell<ProjectEntity,String> {
 
     private ComboBox<String> comboBox;
+    private ArrayList<Status> statuses;
+
+    public TreeTableCB(){};
+    public TreeTableCB(ArrayList<Status> statuses){
+        this.statuses=statuses;
+    }
     @Override
     public void startEdit() {
         if ( (getTableRow().getTreeItem().getValue() instanceof Problem) ) {
@@ -53,13 +62,23 @@ class TreeTableCB extends TreeTableCell<ProjectEntity,String> {
         }
     }
 
+
     private void createComboBox() {
         comboBox = new ComboBox<>();
         comboBoxConverter(comboBox);
         ObservableList<String> items = FXCollections.observableArrayList();
-        items.add("Дней");
-        items.add("Месяцев");
-        items.add("Лет");
+
+        if (statuses!=null) {
+            items.add("");
+            for (int i = 0; i < statuses.size(); i++) {
+                items.add(statuses.get(i).getName());
+            }
+        }
+        else {
+            items.add("Дней");
+            items.add("Месяцев");
+            items.add("Лет");
+        }
         comboBox.setItems(items);
         comboBox.valueProperty().set(getTyp());
         comboBox.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);

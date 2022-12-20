@@ -18,12 +18,11 @@ class H2UserDAO implements IUserDAO {
     /**
      * Method for getting user from DB
      * @param login of the user we want to receive
-     * @param password of the user we want to receive
      * @return ID user
      */
     @Override
-    public int getUser(String login, String password) {
-        String selection = "SELECT * FROM "+ TableUsers+" WHERE LOGIN = '"+login+"' AND PASSWORD='"+password+"'";
+    public int getUser(String login) {
+        String selection = "SELECT * FROM "+ TableUsers+" WHERE LOGIN = '"+login+"'";
         try (Connection dbConnection = DriverManager.getConnection(DB_URL)) {
             assert dbConnection != null;
             try (Statement statement = dbConnection.createStatement()) {
@@ -46,8 +45,8 @@ class H2UserDAO implements IUserDAO {
     @Override
     public int addUser(User newUser) {
         String insertTableSQL = "INSERT INTO "+ TableUsers
-                + " (Login,Password) " + "VALUES "
-                + "('"+newUser.getLogin()+"','"+newUser.getPassword()+"')";
+                + " (Login) " + "VALUES "
+                + "('"+newUser.getLogin()+"')";
         try (Connection dbConnection = DriverManager.getConnection(DB_URL)) {
             assert dbConnection != null;
             try (Statement statement = dbConnection.createStatement()) {

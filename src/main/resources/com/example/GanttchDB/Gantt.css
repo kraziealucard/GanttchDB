@@ -10,3 +10,7 @@
 .default-color2.chart-bar {
     -fx-bar-fill: #6DD3CE;
     }
+
+.status-red {
+    -fx-background-color:rgba(128,0,0,0.7);
+    }
