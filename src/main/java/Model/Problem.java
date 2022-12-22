@@ -3,26 +3,21 @@ package Model;
 import java.util.Date;
 
 public class Problem extends ProjectEntity {
-    private long ID;
-    private long ProjectID;
+    private final long ID;
+    private final long ProjectID;
     private String title;
     private Long numberOfDuration;
     private String categoryOfDuration;
     private Date StartDay;
     private Date EndDay; //optional
 
+    /**
+     * @return status name
+     */
     @Override
     public String getStringStatus() {
         if (this.status==null) return "";
         return this.status.getName();
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
     }
 
     private Status status;//optional
@@ -37,6 +32,15 @@ public class Problem extends ProjectEntity {
         StartDay=null;
         EndDay=null;
         status=null;
+    }
+
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public long getID() {
@@ -75,6 +79,10 @@ public class Problem extends ProjectEntity {
         return categoryOfDuration;
     }
 
+    /**
+     * Object clone method
+     * @return clone of object
+     */
     public Problem clone()
     {
         Problem clone =new Problem(this.ID,this.ProjectID,this.title);

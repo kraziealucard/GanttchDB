@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class Status {
     private long Id;
-    private long UserId;
+    private final long UserId;
     private String Name;
     private Color color;
 

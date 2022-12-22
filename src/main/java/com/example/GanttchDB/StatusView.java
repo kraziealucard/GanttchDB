@@ -26,24 +26,29 @@ public class StatusView {
     long UserID;
     DAOFactory DAO;
     ArrayList<Status> statuses;
+
+    /**
+     * Initializing the Status Editing Window
+     * @param userID of current User for load data
+     * @param DAO used to interact with the database
+     * @param statuses list for editing and saving
+     */
     public void init(long userID, DAOFactory DAO, ArrayList<Status> statuses)
     {
         setValueFactor();
         this.statuses=statuses;
-        addTableItems();
-        UserID=userID;
-        this.DAO=DAO;
-    }
-
-    private void addTableItems()
-    {
         ObservableList<Status> items=FXCollections.observableArrayList();
         StatusTable.setItems(items);
         for (Status status : statuses) {
             items.add(status.clone());
         }
+        UserID=userID;
+        this.DAO=DAO;
     }
 
+    /**
+     *  Saving statuses data in the database
+     */
     @FXML
     private void saveData()
     {
@@ -93,6 +98,9 @@ public class StatusView {
         StatusTable.getSelectionModel().clearSelection();
     }
 
+    /**
+     * Method for set cell value factory for table column
+     */
     private void setValueFactor() {
         this.NameCol.setCellValueFactory(new PropertyValueFactory<>("Name"));
         this.ColorCol.setCellValueFactory(new PropertyValueFactory<>("color"));
@@ -121,10 +129,17 @@ public class StatusView {
         ColorCol.setSortable(false);
     }
 
+    /**
+     * Adds a new status to the table
+     * @param actionEvent button click
+     */
     public void createNewStatus(ActionEvent actionEvent) {
         StatusTable.getItems().add(new Status(-1,UserID,Color.WHITE.getRGB()));
     }
 
+    /**
+     * Delete selected status
+     */
     @FXML
     private void deleteStatus(){
         if ( StatusTable.getSelectionModel().getSelectedItem()==null )

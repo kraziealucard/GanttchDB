@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -24,7 +25,10 @@
                         <Insets />
                      </FlowPane.margin>
                   </TextField>
-                <Button mnemonicParsing="false" onAction="#addProjectBtn_Click" text="Добавить проект" />
+                <Button mnemonicParsing="false" onAction="#addProjectBtn_Click" text="Добавить проект">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor></Button>
                </children>
             </FlowPane>
          </left>
@@ -33,7 +37,10 @@
                 <children>
                     <Label prefHeight="18.0" prefWidth="111.0" text="Добавить задачу:" />
                     <TextField fx:id="nameProblemTF" promptText="Название задачи" />
-                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#addProblemBtn_Click" text="Добавить задачу" />
+                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#addProblemBtn_Click" text="Добавить задачу">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor></Button>
                 </children>
             </FlowPane>
          </center>
@@ -44,12 +51,21 @@
                      <FlowPane.margin>
                         <Insets right="10.0" />
                      </FlowPane.margin>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
                   </Button>
                   <Button mnemonicParsing="false" onAction="#saveToPngClick" prefHeight="26.0" prefWidth="125.0" text="Сохранить в png">
                      <FlowPane.margin>
                         <Insets right="10.0" />
-                     </FlowPane.margin></Button>
-                  <Button alignment="TOP_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#deleteBtn_Click" prefHeight="26.0" prefWidth="63.0" text="Удалить" />
+                     </FlowPane.margin>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor></Button>
+                  <Button alignment="TOP_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#deleteBtn_Click" prefHeight="26.0" prefWidth="63.0" text="Удалить">
+                     <cursor>
+                        <Cursor fx:constant="NONE" />
+                     </cursor></Button>
                </children>
             </FlowPane>
          </right>

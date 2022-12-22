@@ -10,6 +10,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.TreeTableCell;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Class for callback editable Table Cell of category of duration
@@ -19,10 +20,15 @@ class TreeTableCB extends TreeTableCell<ProjectEntity,String> {
     private ComboBox<String> comboBox;
     private ArrayList<Status> statuses;
 
-    public TreeTableCB(){};
+    public TreeTableCB(){}
+
     public TreeTableCB(ArrayList<Status> statuses){
         this.statuses=statuses;
     }
+
+    /**
+     * Method for display comboBox
+     */
     @Override
     public void startEdit() {
         if ( (getTableRow().getTreeItem().getValue() instanceof Problem) ) {
@@ -33,6 +39,9 @@ class TreeTableCB extends TreeTableCell<ProjectEntity,String> {
         }
     }
 
+    /**
+     * Actions when undoing editing
+     */
     @Override
     public void cancelEdit() {
         super.cancelEdit();
@@ -41,6 +50,13 @@ class TreeTableCB extends TreeTableCell<ProjectEntity,String> {
         setGraphic(null);
     }
 
+    /**
+     *
+     * @param item The new item for the cell.
+     * @param empty whether or not this cell represents data from the list. If it
+     *        is empty, then it does not represent any domain data, but is a cell
+     *        being used to render an "empty" row.
+     */
     @Override
     public void updateItem(String item, boolean empty) {
         super.updateItem(item, empty);
@@ -62,13 +78,15 @@ class TreeTableCB extends TreeTableCell<ProjectEntity,String> {
         }
     }
 
-
+    /**
+     * Method for create comboBox and adding values
+     */
     private void createComboBox() {
         comboBox = new ComboBox<>();
         comboBoxConverter(comboBox);
         ObservableList<String> items = FXCollections.observableArrayList();
 
-        if (statuses!=null) {
+        if (Objects.equals(getTableColumn().getText(), "Статус")) {
             items.add("");
             for (int i = 0; i < statuses.size(); i++) {
                 items.add(statuses.get(i).getName());
@@ -93,6 +111,10 @@ class TreeTableCB extends TreeTableCell<ProjectEntity,String> {
 //            });
     }
 
+    /**
+     * Method saving value on table
+     * @param comboBox the selected item of which is stored in the table
+     */
     private void comboBoxConverter(ComboBox<String> comboBox) {
         // Define rendering of the list of values in ComboBox drop down.
         comboBox.setCellFactory((c) -> {
@@ -112,6 +134,6 @@ class TreeTableCB extends TreeTableCell<ProjectEntity,String> {
     }
 
     private String getTyp() {
-        return getItem() == null ? new String("") : getItem().toString();
+        return getItem() == null ? "" : getItem();
     }
 }

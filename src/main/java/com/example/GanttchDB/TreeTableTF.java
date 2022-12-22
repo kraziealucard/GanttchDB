@@ -15,6 +15,9 @@ class TreeTableTF extends TreeTableCell<ProjectEntity, Long> {
 
     private TextField textField;
 
+    /**
+     * Method for display textField
+     */
     @Override
     public void startEdit() {
         if ((getTableRow().getTreeItem().getValue() instanceof Problem)) {
@@ -26,6 +29,9 @@ class TreeTableTF extends TreeTableCell<ProjectEntity, Long> {
         }
     }
 
+    /**
+     * Actions when undoing editing
+     */
     @Override
     public void cancelEdit() {
         super.cancelEdit();
@@ -35,6 +41,13 @@ class TreeTableTF extends TreeTableCell<ProjectEntity, Long> {
         setGraphic(null);
     }
 
+    /**
+     *
+     * @param item The new item for the cell.
+     * @param empty whether or not this cell represents data from the list. If it
+     *        is empty, then it does not represent any domain data, but is a cell
+     *        being used to render an "empty" row.
+     */
     @Override
     public void updateItem(Long item, boolean empty) {
         super.updateItem(item, empty);
@@ -65,6 +78,9 @@ class TreeTableTF extends TreeTableCell<ProjectEntity, Long> {
         }
     }
 
+    /**
+     * Method for create textField and setting a rule inability to enter anything other than numbers into a text field
+     */
     private void createTextField() {
         textField = new TextField(getString());
         textField.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);

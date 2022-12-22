@@ -12,10 +12,10 @@ public abstract class DAOFactory {
     public abstract IProjectDAO getProjectDAO();
     public abstract IStatusDAO getStatusDAO();
     public static DAOFactory getDAOFactory(int whichFactory) {
-        switch (whichFactory) {
-            case H2: return new H2DAOFactory();
-            default: return new H2DAOFactory();
+        if (whichFactory == H2) {
+            return new H2DAOFactory();
         }
+        return new H2DAOFactory();
     }
 
 }

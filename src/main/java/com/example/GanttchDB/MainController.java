@@ -45,6 +45,11 @@ public class MainController {
     long user;
     DAOFactory dao;
 
+    /**
+     * Initializing the main window
+     * @param userID of current User for load data
+     * @param DAO used to interact with the database
+     */
     public void init(long userID,DAOFactory DAO) {
         user=userID;
         dao=DAO;
@@ -63,6 +68,10 @@ public class MainController {
         initProjectAndProblem();
     }
 
+    /**
+     * Opens the status menu
+     * @throws IOException
+     */
     @FXML
     private void GoStatus() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("status-view.fxml"));
@@ -102,7 +111,7 @@ public class MainController {
         }
         projectList.notifyObs();
         Table.getSelectionModel().clearSelection();
-        nameProjectTF.clear();;
+        nameProjectTF.clear();
         nameProblemTF.clear();
         Table.refresh();
     }
@@ -266,7 +275,7 @@ public class MainController {
         if (item.getValue() instanceof Problem problem)
         {
             Project p=(Project) item.getParent().getValue();
-            projectList.removeProblemOfProject(p,(Problem)problem);
+            projectList.removeProblemOfProject(p, problem);
             Table.getSelectionModel().getSelectedItem().getParent().getChildren().remove(item);
         }
     }

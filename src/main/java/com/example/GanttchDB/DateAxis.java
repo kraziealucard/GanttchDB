@@ -16,6 +16,10 @@ public class DateAxis extends ValueAxis<Number>{
     private List<Number> ticks;
     private double different;
     private DateTickFormatter defaultFormatter;
+
+    /**
+     * @param ticks for installation on axis
+     */
     public DateAxis(Number... ticks) {
         super();
 
@@ -79,6 +83,9 @@ public class DateAxis extends ValueAxis<Number>{
     @Override
     protected void setRange(Object range, boolean animate) {}
 
+    /**
+     * @return range values
+     */
     @Override
     protected Object getRange() {
         return new double[]{
@@ -88,22 +95,32 @@ public class DateAxis extends ValueAxis<Number>{
         };
     }
 
-
     @Override
     protected List<Number> calculateTickValues(double length, Object range) {
         return ticks;
     }
 
+    /**
+     * @param value The value to format into a tick label string
+     * @return string of value
+     */
     @Override
     protected String getTickMarkLabel(Number value) {
         StringConverter<Number> formatter = getTickLabelFormatter();
         if (formatter == null) formatter = defaultFormatter;
         return formatter.toString(value);
     }
+
+
     private class DateTickFormatter extends StringConverter<Number>
     {
         private static final SimpleDateFormat F = new SimpleDateFormat( "dd.MM" );
         private static final SimpleDateFormat Y = new SimpleDateFormat("dd.MM.yyyy");
+
+        /**
+         * @param date the object of type Number to convert
+         * @return converted object to String
+         */
         @Override
         public String toString( Number date )
         {
@@ -112,6 +129,11 @@ public class DateAxis extends ValueAxis<Number>{
             return F.format( new Date( date.longValue() ) );
         }
 
+        /**
+         *
+         * @param paramString the String to convert
+         * @return object of class number obtained from a string
+         */
         @Override
         public Number fromString( String paramString )
         {

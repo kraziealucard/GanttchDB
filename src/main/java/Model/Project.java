@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Project extends ProjectEntity {
-    private long ID;
+    private final long ID;
     private String title;
     private final long userID;
     private ArrayList<Problem> problemList;

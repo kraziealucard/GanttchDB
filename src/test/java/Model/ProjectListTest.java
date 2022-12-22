@@ -14,6 +14,7 @@ import java.util.Date;
 @RunWith(JfxRunner.class)
 class ProjectListTest {
 
+
     private void deleteProjects(ProjectList projectList)
     {
         while (projectList.getProjects().size() != 0)

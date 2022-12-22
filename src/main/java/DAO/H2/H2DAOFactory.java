@@ -46,7 +46,9 @@ public class H2DAOFactory extends DAOFactory {
         }
     }
 
-
+    /**
+     *  Method for creating a table with statuses in the database
+     */
     private void createTableStatuses()
     {
         String createTableSQL = "CREATE TABLE  "+TableStatuses+" (\n" +
@@ -74,6 +76,7 @@ public class H2DAOFactory extends DAOFactory {
         String createTableSQL = "CREATE TABLE "+ TableUsers +" (\n" +
                 "ID INT NOT NULL auto_increment, \n" +
                 "login varchar(12) NOT NULL UNIQUE,\n" +
+                "password varchar(12) NOT NULL,\n" +
                 "PRIMARY KEY (ID) \n" +
                 ")";
         try (Connection dbConnection = DriverManager.getConnection(DB_URL)) {
@@ -84,7 +87,7 @@ public class H2DAOFactory extends DAOFactory {
         } catch (SQLException ignored) {
         }
 
-        UserDAO.addUser(new User(1,"test"));
+        UserDAO.addUser(new User(1,"test","test"));
     }
 
     //Method for creating a table with projects in the database

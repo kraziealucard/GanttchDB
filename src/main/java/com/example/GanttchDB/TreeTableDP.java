@@ -22,6 +22,9 @@ class TreeTableDP extends TreeTableCell<ProjectEntity, Date> {
 
     private DatePicker datePicker;
 
+    /**
+     * Method for display datePicker
+     */
     @Override
     public void startEdit() {
         if ((getTableRow().getTreeItem().getValue() instanceof Problem)) {
@@ -32,6 +35,9 @@ class TreeTableDP extends TreeTableCell<ProjectEntity, Date> {
         }
     }
 
+    /**
+     * Actions when undoing editing
+     */
     @Override
     public void cancelEdit() {
         super.cancelEdit();
@@ -41,6 +47,13 @@ class TreeTableDP extends TreeTableCell<ProjectEntity, Date> {
         setGraphic(null);
     }
 
+    /**
+     *
+     * @param item The new item for the cell.
+     * @param empty whether or not this cell represents data from the list. If it
+     *        is empty, then it does not represent any domain data, but is a cell
+     *        being used to render an "empty" row.
+     */
     @Override
     public void updateItem(Date item, boolean empty) {
         super.updateItem(item, empty);
@@ -67,6 +80,9 @@ class TreeTableDP extends TreeTableCell<ProjectEntity, Date> {
         }
     }
 
+    /**
+     * Method for create datePicker
+     */
     private void createDatePicker() {
         datePicker = new DatePicker(getDate());
         datePicker.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);

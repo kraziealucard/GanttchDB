@@ -14,9 +14,9 @@ import java.util.List;
 
 //A class that draws a gantt chart based on data
 public class GanttChart implements IObserver {
-    private DateAxis NA;
-    private CategoryAxis CA;
-    private StackedBarChart<Number, String> Chart;
+    private final DateAxis NA;
+    private final CategoryAxis CA;
+    private final StackedBarChart<Number, String> Chart;
     private final XYChart.Series<Number,String> SeriesStep=new XYChart.Series<>();
     private final XYChart.Series<Number,String> SeriesNotStep=new XYChart.Series<>();
     private final XYChart.Series<Number,String> SeriesNotStepProject=new XYChart.Series<>();
@@ -116,7 +116,9 @@ public class GanttChart implements IObserver {
         NA.setTicks(temp.toArray(new Number[temp.size()]));
     }
 
-
+    /**
+     * @return Node on which is located Chart
+     */
     public Node getNode()
     {
         return Chart.getParent();
