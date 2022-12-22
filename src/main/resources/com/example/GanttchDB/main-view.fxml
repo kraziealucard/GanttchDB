@@ -64,7 +64,7 @@
                      </cursor></Button>
                   <Button alignment="TOP_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#deleteBtn_Click" prefHeight="26.0" prefWidth="63.0" text="Удалить">
                      <cursor>
-                        <Cursor fx:constant="NONE" />
+                        <Cursor fx:constant="DEFAULT" />
                      </cursor></Button>
                </children>
             </FlowPane>
